@@ -16,7 +16,7 @@ jobs:
 
   pre-checks:
     name: Check Release Tagging
-    runs-on: [self-hosted, pcoe-runner-linux-small-prod]
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout source code
@@ -45,7 +45,7 @@ jobs:
 
   display-valid:
     name: Display Valid
-    runs-on: [self-hosted, pcoe-runner-linux-small-prod]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Display Valid
