@@ -13,3 +13,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
+  
+  pre-checks:
+    name: Check Release Tagging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check Tag Presence In Branch
+        id: check-branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw##*/}
+          echo "VALID_BRANCH=$branch" >> $GITHUB_ENV
+
+      - name: Check Tag & Actor
+        id: check-tag-actor
+        run: |
+          echo "Actor: ${{ github.actor }}, Tag: ${{ github.ref }}, Branch: ${{ env.VALID_BRANCH }}"
+
+      - name: Save Check Status
+        run: |
+          echo "IS_VALID=${{ contains(fromJSON(env.AUTHORS),github.actor) && env.VALID_BRANCH==env.BRANCH }}" >> $GITHUB_ENV
+
+    outputs:
+      validated: ${{ env.IS_VALID }}
