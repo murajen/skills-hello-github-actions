@@ -53,7 +53,7 @@ jobs:
         
       - name: codeowner
         id: codeowner
-        uses: SvanBoxel/codeowners-action@v1
+        uses: SvanBoxel/codeowners-action@v2
         with: 
           path: './.github/CODEOWNERS'
 
